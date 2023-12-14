@@ -18,22 +18,25 @@ const serverWebSocket = (httpServer) => {
  
     let userId = socket.handshake.query.token;
     //logger.info("userid=>"+userId)
-
+    logger.info('connecting to user id ='+userId);
     if (connectedUserIds[userId] === undefined) {
+      logger.info("-------------------------------------");
       logger.info("Add user id to connected users array.");
       connectedUserIds[userId] = socket.id;
       logger.info("Connected users =>"+JSON.stringify(connectedUserIds));
+      logger.info("-------------------------------------");
     }
 
-    logger.info('connected.');
-    logger.info('user id = '+userId); 
+   
 
     socket.on("disconnect", () => {
       if (connectedUserIds[userId] !== undefined) {
         delete connectedUserIds[userId];
+        logger.info("-------------------------------------");
         logger.info('Removed user id ='+userId);
+        logger.info("-------------------------------------");
       }
-      logger.info('Disconnected.');
+      logger.info('disconnecting user id='+userId);
 
       // Call the updateUserStatus function
       updateUserStatus(userId);
