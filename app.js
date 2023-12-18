@@ -1,12 +1,13 @@
 /*
-* Author : Khusi Shaileshkumar Patel
-* Date : 1/06/2023
-*/
+ * Author : Khusi Shaileshkumar Patel
+ * Date : 1/06/2023
+ */
 
 
 import express from "express";
 import dotenv from 'dotenv';
 import cors from 'cors';
+import http from 'http';
 import https from "https";
 import { createClient } from "redis";
 
@@ -30,9 +31,14 @@ const PORT = process.env.PORT || 5601; // Use the port number from .env file or 
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
-const httpServer = https.createServer(credentials, app);
 
+let httpServer;
+if (process.env.PROFILE === 'Prod') {
+  app.use(cors());
+  httpServer = https.createServer(credentials, app);
+} else {
+  httpServer = http.createServer(credentials, app);
+}
 
 let socketIO = null;
 
@@ -42,7 +48,7 @@ if(process.env.HELPDEST_NOTIFICATION === 'Y') {
 
 }
 
-export { socketIO } 
+export { socketIO }
 
 if(process.env.HELPDEST_NOTIFICATION === 'Y') {
   const redisClient = createClient({

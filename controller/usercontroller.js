@@ -24,11 +24,29 @@ const findUserById = (req, res) => {
 
 //update User
 const updateUserStatus = (userId) => {
-  userService.updateUserStatus(userId)
+  userService.updateUserStatus(userId);
+};
+
+//Add Login History
+const addUserLoginHstory = async (userId) => {
+  try {
+    const insertedRecordId = await userService.addUserLoginHstory(userId);
+    return insertedRecordId;
+  } catch (error) {
+    console.error("Error:", error.message);
+    return error.message;
+  }
+};
+
+//Add Logout History
+const updateUserLoginHstory = (recordId) => {
+  userService.updateUserLoginHstory(recordId);
 };
 
 export {
   findAllUser,
   findUserById,
-  updateUserStatus
+  updateUserStatus,
+  addUserLoginHstory,
+  updateUserLoginHstory,
 };
