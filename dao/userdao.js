@@ -1,7 +1,12 @@
 import db from "../config/dbconfig/dbconfigmain.js";
 import logger from "../config/logger/logger.config.js";
-
-const { user_mst: user, agent_status_record: agentUser } = db;
+import Sequelize from "sequelize";
+const { Op } = Sequelize;
+const {
+  user_mst: user,
+  agent_status_record: agentUser,
+  user_login_history: loginHistory,
+} = db;
 
 const findAllUsers = () => {
   return user
@@ -98,10 +103,32 @@ const updateUserLoginHstory = async (recordId) => {
   }
 };
 
+const clearUserLoginHstory = async () => {
+  try {
+    logger.info("clearUserLoginHstory: Called");
+
+    const oneWeekAgo = new Date(new Date() - 7 * 24 * 60 * 60 * 1000);
+
+    const queryResponse = await loginHistory.destroy({
+      where: {
+        LOGIN_TIME: {
+          [Op.lt]: oneWeekAgo,
+        },
+      },
+    });
+    logger.info("queryResponse: " + queryResponse);
+    return true;
+  } catch (error) {
+    logger.error("errorMessage: " + error.message);
+    throw new Error(error.message);
+  }
+};
+
 export default {
   findAllUsers,
   findUserById,
   updateUserStatus,
   addUserLoginHstory,
   updateUserLoginHstory,
+  clearUserLoginHstory,
 };

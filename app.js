@@ -10,6 +10,7 @@ import cors from 'cors';
 import http from 'http';
 import https from "https";
 import { createClient } from "redis";
+import "./cron/clearLoginHistory.js";
 
 import routes from './routes/index.js';
 import db from './config/dbconfig/dbconfigmain.js';

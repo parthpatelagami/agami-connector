@@ -37,10 +37,16 @@ const addUserLoginHstory = async (userId) => {
 const updateUserLoginHstory = (recordId) => {
   userDAO.updateUserLoginHstory(recordId);
 };
+
+const clearUserLoginHstory = () => {
+  userDAO.clearUserLoginHstory();
+};
+
 export default {
   findAllUsers,
   findUserById,
   updateUserStatus,
   addUserLoginHstory,
   updateUserLoginHstory,
+  clearUserLoginHstory,
 };

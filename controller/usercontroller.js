@@ -43,10 +43,15 @@ const updateUserLoginHstory = (recordId) => {
   userService.updateUserLoginHstory(recordId);
 };
 
+const clearUserLoginHstory = () => {
+  userService.clearUserLoginHstory();
+};
+
 export {
   findAllUser,
   findUserById,
   updateUserStatus,
   addUserLoginHstory,
   updateUserLoginHstory,
+  clearUserLoginHstory,
 };
