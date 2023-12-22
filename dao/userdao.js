@@ -48,8 +48,15 @@ const updateUserStatus = async (userId) => {
       ACTION_FROM:'1',
     };
     //    console.log("updateData: ", updateData);
-    logger.info("userId => " +userId);
-    const queryResponse = await agentUser.update(updateData, { where: { AGENT_ID: userId } });
+    logger.info("userId => " + userId);
+    const queryResponse = await agentUser.update(updateData, {
+      where: {
+        AGENT_ID: userId,
+        [Sequelize.Op.not]: {
+          AGENT_ID: 4,
+        },
+      },
+    });
     //    console.log("console.log: queryResponse: ", queryResponse);
     logger.info("queryResponse: " +queryResponse);
     //    logger.info("queryResponse: " +agentUser.query);
@@ -62,6 +69,7 @@ const updateUserStatus = async (userId) => {
 
 const addUserLoginHstory = async (userId) => {
   try {
+    logger.info("addUserLoginHstory => Called");
     const loginTime = new Date()
       .toISOString()
       .replace("T", " ")
@@ -83,6 +91,7 @@ const addUserLoginHstory = async (userId) => {
 
 const updateUserLoginHstory = async (recordId) => {
   try {
+    logger.info("updateUserLoginHstory => Called");
     const logoutTime = new Date()
       .toISOString()
       .replace("T", " ")
@@ -93,9 +102,6 @@ const updateUserLoginHstory = async (recordId) => {
     const queryResponse = await loginHistory.update(updateData, {
       where: {
         ID: recordId,
-        AGENT_ID: {
-          [Sequelize.Op.not]: 4,
-        },
       },
     });
     logger.info("queryResponse: " + queryResponse);
