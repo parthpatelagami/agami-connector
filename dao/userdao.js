@@ -93,6 +93,9 @@ const updateUserLoginHstory = async (recordId) => {
     const queryResponse = await loginHistory.update(updateData, {
       where: {
         ID: recordId,
+        AGENT_ID: {
+          [Sequelize.Op.not]: 4,
+        },
       },
     });
     logger.info("queryResponse: " + queryResponse);
