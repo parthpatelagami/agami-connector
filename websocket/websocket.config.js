@@ -44,7 +44,6 @@ const serverWebSocket = (httpServer) => {
       logger.info("disconnecting user id=" + userId);
       logger.info("Record id =" + recordId);
       updateUserLoginHstory(recordId);
-      updateUserStatus(userId);
       updateUserLiveStatus(userId, true);
     });
   });
