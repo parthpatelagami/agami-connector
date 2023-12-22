@@ -1,6 +1,6 @@
-const loginHistoryModel = (sequelize, Sequelize) => {
+const userLiveStatusModel = (sequelize, Sequelize) => {
   const userMst = sequelize.define(
-    "user_live_login_history",
+    "user_live_status",
     {
       ID: {
         type: Sequelize.INTEGER,
@@ -9,6 +9,10 @@ const loginHistoryModel = (sequelize, Sequelize) => {
         autoIncrement: true,
       },
       AGENT_ID: {
+        type: Sequelize.INTEGER,
+        unique: true,
+      },
+      STATUS_ID: {
         type: Sequelize.INTEGER,
       },
       LOGIN_TIME: {
@@ -19,10 +23,10 @@ const loginHistoryModel = (sequelize, Sequelize) => {
       },
     },
     {
-      tableName: "user_live_login_history",
+      tableName: "user_live_status",
       timestamps: false,
     }
   );
   return userMst;
 };
-export default loginHistoryModel;
+export default userLiveStatusModel;

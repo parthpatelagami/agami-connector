@@ -1,8 +1,9 @@
-import dotenv from 'dotenv';
-import Sequelize from 'sequelize';
-import userModel from '../../model/usermodel.js';
+import dotenv from "dotenv";
+import Sequelize from "sequelize";
+import userModel from "../../model/usermodel.js";
 import logger from "../logger/logger.config.js";
 import loginHistoryModel from "../../model/loginhistorymodel.js";
+import userLiveStatusModel from "../../model/userstatusmodel.js";
 
 dotenv.config(); // Load environment variables from .env file
 
@@ -14,8 +15,8 @@ const sequelize = new Sequelize({
   host: process.env.MYSQL_HOST,
   port: process.env.MYSQL_DBPORT,
   dialect: process.env.MYSQL_DIALECT,
-  logging: msg => logger.info("Query : "+msg),
-  logQueryParameters: true
+  logging: (msg) => logger.info("Query : " + msg),
+  logQueryParameters: true,
 });
 
 const db = {};
@@ -25,6 +26,7 @@ db.sequelize = sequelize;
 // Models-tables
 //db.user_mst = userModel(sequelize, Sequelize);
 db.agent_status_record = userModel(sequelize, Sequelize);
-db.user_login_history = loginHistoryModel(sequelize, Sequelize);
+db.user_live_login_history = loginHistoryModel(sequelize, Sequelize);
+db.user_live_status = userLiveStatusModel(sequelize, Sequelize);
 
 export default db;

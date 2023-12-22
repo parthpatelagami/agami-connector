@@ -4,18 +4,18 @@ import {
   updateUserStatus,
   addUserLoginHstory,
   updateUserLoginHstory,
+  updateUserLiveStatus,
 } from "../controller/usercontroller.js";
 import logger from "../config/logger/logger.config.js";
 
 let connectedUserIds = {};
 
 const serverWebSocket = (httpServer) => {
-  
-  const scoketIO = new Server(httpServer,{
+  const scoketIO = new Server(httpServer, {
     cors: {
       origin: "https://agamidemo.helpinbox.io:10443",
-      methods: ["GET", "POST"]
-    }
+      methods: ["GET", "POST"],
+    },
   });
 
   scoketIO.on("connection", async (socket) => {
@@ -23,7 +23,8 @@ const serverWebSocket = (httpServer) => {
     let recordId = await addUserLoginHstory(userId);
     logger.info("RECORDID = " + recordId);
 
-    //logger.info("userid=>"+userId)
+    updateUserLiveStatus(userId, false);
+
     logger.info("connecting to user id =" + userId);
     if (connectedUserIds[userId] === undefined) {
       logger.info("-------------------------------------");
@@ -44,6 +45,7 @@ const serverWebSocket = (httpServer) => {
       logger.info("Record id =" + recordId);
       updateUserLoginHstory(recordId);
       updateUserStatus(userId);
+      updateUserLiveStatus(userId, true);
     });
   });
 

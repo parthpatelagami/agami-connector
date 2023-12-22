@@ -1,21 +1,23 @@
-import userDAO from '../dao/userdao.js';
+import userDAO from "../dao/userdao.js";
 
 const findAllUsers = () => {
-  return userDAO.findAllUsers()
-    .then(users => {
+  return userDAO
+    .findAllUsers()
+    .then((users) => {
       return users;
     })
-    .catch(error => {
+    .catch((error) => {
       throw new Error(error.message);
     });
 };
 
 const findUserById = (req, res) => {
-  return userDAO.findUserById(req, res)
-    .then(users => {
+  return userDAO
+    .findUserById(req, res)
+    .then((users) => {
       return users;
     })
-    .catch(error => {
+    .catch((error) => {
       throw new Error(error.message);
     });
 };
@@ -38,6 +40,10 @@ const updateUserLoginHstory = (recordId) => {
   userDAO.updateUserLoginHstory(recordId);
 };
 
+const updateUserLiveStatus = (recordId, isActive) => {
+  userDAO.updateUserLiveStatus(recordId, isActive);
+};
+
 const clearUserLoginHstory = () => {
   userDAO.clearUserLoginHstory();
 };
@@ -49,4 +55,5 @@ export default {
   addUserLoginHstory,
   updateUserLoginHstory,
   clearUserLoginHstory,
+  updateUserLiveStatus,
 };

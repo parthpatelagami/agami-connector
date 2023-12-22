@@ -1,23 +1,25 @@
-import userService from '../service/userservice.js';
+import userService from "../service/userservice.js";
 
 // Get all Users
 const findAllUser = (req, res) => {
-  userService.findAllUsers()
-    .then(users => {
+  userService
+    .findAllUsers()
+    .then((users) => {
       res.send(users);
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(500).send(error.message);
     });
 };
 
 // Get User by ID
 const findUserById = (req, res) => {
-  userService.findUserById(req, res)
-    .then(users => {
+  userService
+    .findUserById(req, res)
+    .then((users) => {
       res.send(users);
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(500).send(error.message);
     });
 };
@@ -43,6 +45,10 @@ const updateUserLoginHstory = (recordId) => {
   userService.updateUserLoginHstory(recordId);
 };
 
+const updateUserLiveStatus = (recordId, isActive) => {
+  userService.updateUserLiveStatus(recordId, isActive);
+};
+
 const clearUserLoginHstory = () => {
   userService.clearUserLoginHstory();
 };
@@ -54,4 +60,5 @@ export {
   addUserLoginHstory,
   updateUserLoginHstory,
   clearUserLoginHstory,
+  updateUserLiveStatus,
 };
