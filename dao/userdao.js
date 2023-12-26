@@ -1,6 +1,7 @@
 import db from "../config/dbconfig/dbconfigmain.js";
 import logger from "../config/logger/logger.config.js";
 import Sequelize from "sequelize";
+import moment from "moment";
 const { Op } = Sequelize;
 const {
   user_mst: user,
@@ -39,10 +40,7 @@ const findUserById = (req, res) => {
 const updateUserStatus = async (userId) => {
   //  console.log("AGENT_ID = " + userId);
   try {
-    const logoutTime = new Date()
-      .toISOString()
-      .replace("T", " ")
-      .replace(/\.\d+Z$/, ""); // Get current logout time
+    const logoutTime = moment().format('YYYY-MM-DD HH:mm:ss');
     const updateData = {
       AGENT_STATUS_ID: 5,
       LOGOUT_TIME: logoutTime,
@@ -71,10 +69,7 @@ const updateUserStatus = async (userId) => {
 const addUserLoginHstory = async (userId) => {
   try {
     logger.info("addUserLoginHstory => Called");
-    const loginTime = new Date()
-      .toISOString()
-      .replace("T", " ")
-      .replace(/\.\d+Z$/, "");
+    const loginTime = moment().format('YYYY-MM-DD HH:mm:ss');
     const createData = {
       AGENT_ID: userId,
       LOGIN_TIME: loginTime,
@@ -93,10 +88,7 @@ const addUserLoginHstory = async (userId) => {
 const updateUserLoginHstory = async (recordId) => {
   try {
     logger.info("updateUserLoginHstory => Called");
-    const logoutTime = new Date()
-      .toISOString()
-      .replace("T", " ")
-      .replace(/\.\d+Z$/, "");
+    const logoutTime = moment().format('YYYY-MM-DD HH:mm:ss');
     const updateData = {
       LOGOUT_TIME: logoutTime,
     };
@@ -138,10 +130,7 @@ const updateUserLiveStatus = async (userId, isActive) => {
   try {
     logger.info("updateUserLiveStatus: Called");
 
-    const timeStamp = new Date()
-      .toISOString()
-      .replace("T", " ")
-      .replace(/\.\d+Z$/, ""); // Get current time
+    const timeStamp = moment().format('YYYY-MM-DD HH:mm:ss');
 
     const updateData = isActive
       ? { AGENT_ID: userId, STATUS_ID: 5, LOGOUT_TIME: timeStamp }
