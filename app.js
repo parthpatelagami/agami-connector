@@ -20,12 +20,6 @@ import compression from 'compression';
 import bodyParser from 'body-parser';
 import fs from 'fs';
 
-const privateKey = fs.readFileSync('/opt/nodejs/agami-connector/helpnode.key', 'utf8');
-const certificate = fs.readFileSync('/opt/nodejs/agami-connector/helpnode.crt', 'utf8');
-const credentials = {
-  key: privateKey,
-  cert: certificate
-};
 
 dotenv.config(); // Load environment variables from .env file
 const PORT = process.env.PORT || 5601; // Use the port number from .env file or default to 3000
@@ -35,10 +29,16 @@ app.use(bodyParser.json());
 
 let httpServer;
 if (process.env.PROFILE === 'Prod') {
+  const privateKey = fs.readFileSync('/opt/nodejs/agami-connector/helpnode.key', 'utf8');
+  const certificate = fs.readFileSync('/opt/nodejs/agami-connector/helpnode.crt', 'utf8');
+  const credentials = {
+  key: privateKey,
+  cert: certificate
+  };
   app.use(cors());
   httpServer = https.createServer(credentials, app);
 } else {
-  httpServer = http.createServer(credentials, app);
+  httpServer = http.createServer(app);
 }
 
 let socketIO = null;
