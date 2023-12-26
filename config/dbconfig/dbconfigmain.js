@@ -15,6 +15,7 @@ const sequelize = new Sequelize({
   host: process.env.MYSQL_HOST,
   port: process.env.MYSQL_DBPORT,
   dialect: process.env.MYSQL_DIALECT,
+  timezone:process.env.SERVER_TIMEZONE,
   logging: (msg) => logger.info("Query : " + msg),
   logQueryParameters: true,
 });
