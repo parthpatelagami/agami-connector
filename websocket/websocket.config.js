@@ -20,12 +20,16 @@ const serverWebSocket = (httpServer) => {
 
   scoketIO.on("connection", async (socket) => {
     let userId = socket.handshake.query.token;
-    let recordId = await addUserLoginHstory(userId);
-    logger.info("RECORDID = " + recordId);
+    let userStatus=socket.handshake.query.user_status;
+    let recordId =null;
+    if(userStatus != "Offline") {
+      let recordId = await addUserLoginHstory(userId);
+      logger.info("Record Id = " + recordId);
+    }
 
     updateUserLiveStatus(userId, false);
 
-    logger.info("connecting to user id =" + userId);
+    logger.info("connecting to user id =" + userId+",status =" + userStatus);
     if (connectedUserIds[userId] === undefined) {
       logger.info("-------------------------------------");
       logger.info("Add user id to connected users array.");
