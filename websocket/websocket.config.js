@@ -2,13 +2,14 @@ import { Server } from "socket.io";
 
 import {
   updateUserStatus,
-  addUserLoginHstory,
-  updateUserLoginHstory,
+  addUserConnectHistory,
+  updateUserConnectHistory,
   updateUserLiveStatus,
 } from "../controller/usercontroller.js";
 import logger from "../config/logger/logger.config.js";
 
 let connectedUserIds = {};
+let connectedRecordIds = {};
 
 const serverWebSocket = (httpServer) => {
   const scoketIO = new Server(httpServer, {
@@ -23,11 +24,13 @@ const serverWebSocket = (httpServer) => {
     let userStatus=socket.handshake.query.user_status;
     let recordId =null;
     if(userStatus != "Offline") {
-      let recordId = await addUserLoginHstory(userId);
+      recordId = await addUserConnectHistory(userId);
+      connectedRecordIds[userId] = recordId;
       logger.info("Record Id = " + recordId);
+      updateUserLiveStatus(userId, false);
     }
 
-    updateUserLiveStatus(userId, false);
+  
 
     logger.info("connecting to user id =" + userId+",status =" + userStatus);
     if (connectedUserIds[userId] === undefined) {
@@ -45,10 +48,18 @@ const serverWebSocket = (httpServer) => {
         logger.info("Removed user id =" + userId);
         logger.info("-------------------------------------");
       }
-      logger.info("disconnecting user id=" + userId);
-      logger.info("Record id =" + recordId);
-      updateUserLoginHstory(recordId);
+      logger.info("disconnecting user id=" + userId);     
+
       updateUserLiveStatus(userId, true);
+      
+      //logger.info("--------------connectedRecordIds-----------------------"+connectedRecordIds);
+      
+      if(connectedRecordIds[userId]){
+        recordId=connectedRecordIds[userId];
+        logger.info("Update Record Id -> " + recordId);
+        updateUserConnectHistory(recordId);
+        delete connectedRecordIds[userId];
+      }
     });
   });
 

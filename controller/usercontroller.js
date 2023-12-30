@@ -30,9 +30,9 @@ const updateUserStatus = (userId) => {
 };
 
 //Add Login History
-const addUserLoginHstory = async (userId) => {
+const addUserConnectHistory = async (userId) => {
   try {
-    const insertedRecordId = await userService.addUserLoginHstory(userId);
+    const insertedRecordId = await userService.addUserConnectHistory(userId);
     return insertedRecordId;
   } catch (error) {
     console.error("Error:", error.message);
@@ -41,8 +41,8 @@ const addUserLoginHstory = async (userId) => {
 };
 
 //Add Logout History
-const updateUserLoginHstory = (recordId) => {
-  userService.updateUserLoginHstory(recordId);
+const updateUserConnectHistory = (recordId) => {
+  userService.updateUserConnectHistory(recordId);
 };
 
 const updateUserLiveStatus = (recordId, isActive) => {
@@ -57,8 +57,8 @@ export {
   findAllUser,
   findUserById,
   updateUserStatus,
-  addUserLoginHstory,
-  updateUserLoginHstory,
+  addUserConnectHistory,
+  updateUserConnectHistory,
   clearUserLoginHstory,
   updateUserLiveStatus,
 };

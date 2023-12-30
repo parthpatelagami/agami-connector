@@ -27,7 +27,7 @@ db.sequelize = sequelize;
 // Models-tables
 //db.user_mst = userModel(sequelize, Sequelize);
 db.agent_status_record = userModel(sequelize, Sequelize);
-db.user_live_login_history = loginHistoryModel(sequelize, Sequelize);
+db.user_live_connection_history = loginHistoryModel(sequelize, Sequelize);
 db.user_live_status = userLiveStatusModel(sequelize, Sequelize);
 
 export default db;

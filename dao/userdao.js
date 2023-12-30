@@ -6,7 +6,7 @@ const { Op } = Sequelize;
 const {
   user_mst: user,
   agent_status_record: agentUser,
-  user_live_login_history: loginHistory,
+  user_live_connection_history: loginHistory,
   user_live_status: userLiveStatus,
 } = db;
 
@@ -66,13 +66,13 @@ const updateUserStatus = async (userId) => {
   }
 };
 
-const addUserLoginHstory = async (userId) => {
+const addUserConnectHistory = async (userId) => {
   try {
-    logger.info("addUserLoginHstory => Called");
-    const loginTime = moment().format('YYYY-MM-DD HH:mm:ss');
+    logger.info("addUserConnectHistory => Called");
+    const connectTime = moment().format('YYYY-MM-DD HH:mm:ss');
     const createData = {
       AGENT_ID: userId,
-      LOGIN_TIME: loginTime,
+      CONNECT_TIME: connectTime,
     };
     logger.info("userId => " + userId);
     const queryResponse = await loginHistory.create(createData);
@@ -85,12 +85,12 @@ const addUserLoginHstory = async (userId) => {
   }
 };
 
-const updateUserLoginHstory = async (recordId) => {
+const updateUserConnectHistory = async (recordId) => {
   try {
-    logger.info("updateUserLoginHstory => Called");
-    const logoutTime = moment().format('YYYY-MM-DD HH:mm:ss');
+    logger.info("updateUserConnectHistory => Called");
+    const disConnectTime = moment().format('YYYY-MM-DD HH:mm:ss');
     const updateData = {
-      LOGOUT_TIME: logoutTime,
+      DISCONNECT_TIME: disConnectTime,
     };
     const queryResponse = await loginHistory.update(updateData, {
       where: {
@@ -113,7 +113,7 @@ const clearUserLoginHstory = async () => {
 
     const queryResponse = await loginHistory.destroy({
       where: {
-        LOGIN_TIME: {
+        CONNECT_TIME: {
           [Op.lt]: oneWeekAgo,
         },
       },
@@ -133,12 +133,12 @@ const updateUserLiveStatus = async (userId, isActive) => {
     const timeStamp = moment().format('YYYY-MM-DD HH:mm:ss');
 
     const updateData = isActive
-      ? { AGENT_ID: userId, STATUS_ID: 5, LOGOUT_TIME: timeStamp }
+      ? { AGENT_ID: userId, STATUS_ID: 5, DISCONNECT_TIME: timeStamp }
       : {
           AGENT_ID: userId,
           STATUS_ID: 1,
-          LOGIN_TIME: timeStamp,
-          LOGOUT_TIME: null,
+          CONNECT_TIME: timeStamp,
+          DISCONNECT_TIME: null,
         };
 
     const [numRowsUpdated, created] = await userLiveStatus.upsert(updateData, {
@@ -164,8 +164,8 @@ export default {
   findAllUsers,
   findUserById,
   updateUserStatus,
-  addUserLoginHstory,
-  updateUserLoginHstory,
+  addUserConnectHistory,
+  updateUserConnectHistory,
   clearUserLoginHstory,
   updateUserLiveStatus,
 };

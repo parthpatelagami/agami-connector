@@ -1,6 +1,6 @@
 const loginHistoryModel = (sequelize, Sequelize) => {
   const userMst = sequelize.define(
-    "user_live_login_history",
+    "user_live_connection_history",
     {
       ID: {
         type: Sequelize.INTEGER,
@@ -11,15 +11,15 @@ const loginHistoryModel = (sequelize, Sequelize) => {
       AGENT_ID: {
         type: Sequelize.INTEGER,
       },
-      LOGIN_TIME: {
+      CONNECT_TIME: {
         type: Sequelize.DATE,
       },
-      LOGOUT_TIME: {
+      DISCONNECT_TIME: {
         type: Sequelize.DATE,
       },
     },
     {
-      tableName: "user_live_login_history",
+      tableName: "user_live_connection_history",
       timestamps: false,
     }
   );

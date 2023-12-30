@@ -26,9 +26,9 @@ const updateUserStatus = (userId) => {
   return userDAO.updateUserStatus(userId);
 };
 
-const addUserLoginHstory = async (userId) => {
+const addUserConnectHistory = async (userId) => {
   try {
-    const insertedRecordId = await userDAO.addUserLoginHstory(userId);
+    const insertedRecordId = await userDAO.addUserConnectHistory(userId);
     return insertedRecordId;
   } catch (error) {
     throw new Error(error.message);
@@ -36,8 +36,8 @@ const addUserLoginHstory = async (userId) => {
 };
 
 //Add Logout History
-const updateUserLoginHstory = (recordId) => {
-  userDAO.updateUserLoginHstory(recordId);
+const updateUserConnectHistory = (recordId) => {
+  userDAO.updateUserConnectHistory(recordId);
 };
 
 const updateUserLiveStatus = (recordId, isActive) => {
@@ -52,8 +52,8 @@ export default {
   findAllUsers,
   findUserById,
   updateUserStatus,
-  addUserLoginHstory,
-  updateUserLoginHstory,
+  addUserConnectHistory,
+  updateUserConnectHistory,
   clearUserLoginHstory,
   updateUserLiveStatus,
 };

@@ -15,10 +15,10 @@ const userLiveStatusModel = (sequelize, Sequelize) => {
       STATUS_ID: {
         type: Sequelize.INTEGER,
       },
-      LOGIN_TIME: {
+      CONNECT_TIME: {
         type: Sequelize.DATE,
       },
-      LOGOUT_TIME: {
+      DISCONNECT_TIME: {
         type: Sequelize.DATE,
       },
     },
