@@ -43,7 +43,7 @@ const updateUserStatus = async (userId) => {
     const logoutTime = moment().format('YYYY-MM-DD HH:mm:ss');
     const updateData = {
       AGENT_STATUS_ID: 5,
-      LOGOUT_TIME: logoutTime,
+      DISCONNECT_TIME: logoutTime,
       ACTION_FROM: "1",
     };
     //    console.log("updateData: ", updateData);

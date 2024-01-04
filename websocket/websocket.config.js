@@ -1,7 +1,6 @@
 import { Server } from "socket.io";
 
 import {
-  updateUserStatus,
   addUserConnectHistory,
   updateUserConnectHistory,
   updateUserLiveStatus,
